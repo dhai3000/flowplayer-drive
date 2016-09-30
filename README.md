@@ -13,7 +13,7 @@ If you want to use it as a command line tool use the global switch (might need s
 
 ### Node library
 
-```
+```js
 var drive = require('flowplayer-drive');
 drive.login('john.doe@gmail.com', 's3cr3t').then(function(user) {
   console.log('Logged in as ' + user.email);
