@@ -52,7 +52,7 @@ function listFlow() {
   readConfiguration().then(({authcode}) => {
     if (!authcode) return nologin();
     return videos(authcode).then(resp => {
-      resp.forEach(video => console.log(JSON.stringify(video)));
+      console.log(JSON.stringify(resp));
     });
   });
 }
