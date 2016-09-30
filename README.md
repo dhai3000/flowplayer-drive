@@ -18,7 +18,7 @@ var drive = require('flowplayer-drive');
 drive.login('john.doe@gmail.com', 's3cr3t').then(function(user) {
   console.log('Logged in as ' + user.email);
   return drive.uploadFile(user.authcode, '/path/to/file.mp4', { title: 'My cool video' });
-}).then(function(err) {
+}).catch(function(err) {
   console.error('Something went wrong', err);
 });
 ```
