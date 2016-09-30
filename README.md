@@ -36,3 +36,12 @@ drive.login('john.doe@gmail.com', 's3cr3t').then(function(user) {
  - `flowplayer login` - prompts for login credentials and caches them for later use
  - `flowplayer upload <file1> [<file2> <file3>]` - Upload one ore more videos to the service
  - `flowplayer list` - List all videos
+
+Tip: combine the command line tool with [jq](https://stedolan.github.io/jq/) to process and analyze data:
+
+```
+$ flowplayer list | jq -c 'sort_by(.viewCount) | reverse | .[] | {title: .title, viewCount: .viewCount}'
+{"title":"Hero_video.mpeg","viewCount":67982}
+{"title":"2013-05-25 10.29.08.mp4","viewCount":184}
+...
+```
