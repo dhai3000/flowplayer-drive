@@ -32,6 +32,28 @@ drive.login('john.doe@gmail.com', 's3cr3t').then(function(user) {
 
 ### Command line tool
 
+Examples:
+
+Upload a video file
+
+```
+flowplayer upload videos/my-video.mp4
+```
+
+Upload all MP4 files from a directory
+
+```
+flowplayer upload videos/*.mp4
+```
+
+List videos from Drive API as JSON
+
+```
+flowplayer list
+```
+
+####  Commands
+
  - `flowplayer` - prints the usage information
  - `flowplayer login` - prompts for login credentials and caches them for later use
  - `flowplayer upload <file1> [<file2> <file3>]` - Upload one ore more videos to the service
