@@ -29,9 +29,11 @@ function uploadFlow(files = []) {
   readConfiguration().then(({authcode}) => {
     if (!authcode) return console.log('No cached credentials. Please login first.');
     return files.reduce((p, file) => {
-      console.log(`Uploading ${file}`);
-      return p.then(() => uploadFile(authcode, file)).then(resp => {
-        console.log(`Upload complete, video id ${resp.id}`);
+      return p.then(() =>{
+        console.log(`Uploading ${file}`);
+        return uploadFile(authcode, file).then(resp => {
+          console.log(`Upload complete, video id ${resp.id}`);
+        });
       });
     }, Promise.resolve());
   }).catch(e => {
