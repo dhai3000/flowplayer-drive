@@ -14,10 +14,11 @@ If you want to use it as a command line tool use the global switch (might need s
 ### Node library
 
 ```js
-var drive = require('flowplayer-drive');
+var drive = require('flowplayer-drive')
+  , fs = require('fs');
 drive.login('john.doe@gmail.com', 's3cr3t').then(function(user) {
   console.log('Logged in as ' + user.email);
-  return drive.uploadFile(user.authcode, '/path/to/file.mp4', { title: 'My cool video' });
+  return drive.uploadVideo(user.authcode, fs.createReadStream('/path/to/file.mp4'), { title: 'My cool video' });
 }).catch(function(err) {
   console.error('Something went wrong', err);
 });
@@ -26,7 +27,7 @@ drive.login('john.doe@gmail.com', 's3cr3t').then(function(user) {
 #### Methods
 
  - `login(user, pass)` - Calls the login endpoint, returns user information along with an authentication token [doc](https://flowplayer.org/docs/drive-api.html#authentication)
- - `uploadFile(authcode, file, params)` - Uploads a file to Drive [doc](https://flowplayer.org/docs/drive-api.html#uploading)
+ - `uploadVideo(authcode, file, params)` - Uploads a file to Drive [doc](https://flowplayer.org/docs/drive-api.html#uploading)
 
 ### Command line tool
 

@@ -1,7 +1,5 @@
 import fetch from 'node-fetch';
-import path from 'path';
 import FormData from 'form-data';
-import fs from 'mz/fs';
 
 const API_URL = process.env.DRIVE_API_URL || 'https://drive.api.flowplayer.org';
 
@@ -18,11 +16,10 @@ export function login(username, password) {
   });
 }
 
-export function uploadFile(authcode, file, params = {}) {
-  if (!params.title) params.title = path.basename(file);
+export function uploadVideo(authcode, file, params = {}) {
   let fd = new FormData();
   Object.keys(params).map(k => fd.append(k, params[k]));
-  fd.append('file', fs.createReadStream(file));
+  fd.append('file', file);
   return fetch(`${API_URL}/videos`, {
     method: 'POST',
     headers: {

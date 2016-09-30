@@ -4,7 +4,7 @@
 
 import {
   login,
-  uploadFile
+  uploadVideo,
 } from './index';
 
 import minimist from 'minimist';
@@ -24,14 +24,20 @@ function readConfiguration() {
   });
 }
 
+function nologin() {
+  console.log('No cached credentials. Please login first.');
+}
+
 function uploadFlow(files = []) {
   if (!files.length) return usageFlow();
   readConfiguration().then(({authcode}) => {
-    if (!authcode) return console.log('No cached credentials. Please login first.');
+    if (!authcode) return nologin();
     return files.reduce((p, file) => {
       return p.then(() =>{
         console.log(`Uploading ${file}`);
-        return uploadFile(authcode, file).then(resp => {
+        return uploadVideo(authcode, fs.createReadStream(file), {
+          title: path.basename(file)
+        }).then(resp => {
           console.log(`Upload complete, video id ${resp.id}`);
         });
       });
