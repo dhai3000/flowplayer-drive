@@ -5,6 +5,7 @@
 import {
   login,
   uploadVideo,
+  videos
 } from './index';
 
 import minimist from 'minimist';
@@ -47,11 +48,21 @@ function uploadFlow(files = []) {
   });
 }
 
+function listFlow() {
+  readConfiguration().then(({authcode}) => {
+    if (!authcode) return nologin();
+    return videos(authcode).then(resp => {
+      resp.forEach(video => console.log(JSON.stringify(video)));
+    });
+  });
+}
+
 function usageFlow() {
   console.log('Usage: flowplayer <command>');
   console.log('Commands:');
   console.log('  login                  | prompts for login credentials and saves authentication token to $HOME/.flowplayerrc');
   console.log('  upload <file1> <file2> | upload files to be encoded by Flowplayer Drive');
+  console.log('  list                   | list all videos in Drive library');
 }
 
 function loginFlow() {
@@ -78,7 +89,8 @@ function loginFlow() {
   let {
     _: [command, ...args]
   } = argv;
-  if (!command) return usageFlow();
   if (command === 'login') return loginFlow();
   if (command === 'upload') return uploadFlow(args, argv);
+  if (command === 'list') return listFlow(args, argv);
+  return usageFlow();
 })();

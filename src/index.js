@@ -26,12 +26,22 @@ export function uploadVideo(authcode, file, params = {}) {
       'flowplayer-authcode': authcode
     },
     body: fd
-  }).then(resp => {
-    if (!resp.ok) return resp.text().then(str => {
-      throw new RequestError('Upload unsuccessfull', resp.status, str);
-    });
-    return resp.json().then(json => json.video);
+  }).then(handleResponse).then(json => json.video);
+}
+
+export function videos(authcode) {
+  return fetch(`${API_URL}/videos`, {
+    headers: {
+      'flowplayer-authcode': authcode
+    }
+  }).then(handleResponse).then(json => json.videos);
+}
+
+function handleResponse(resp) {
+  if (!resp.ok) return resp.text().then(str => {
+    throw new RequestError('Upload unsuccessfull', resp.status, str);
   });
+  return resp.json();
 }
 
 class RequestError extends Error {

@@ -28,9 +28,11 @@ drive.login('john.doe@gmail.com', 's3cr3t').then(function(user) {
 
  - `login(user, pass)` - Calls the login endpoint, returns user information along with an authentication token [doc](https://flowplayer.org/docs/drive-api.html#authentication)
  - `uploadVideo(authcode, file, params)` - Uploads a file to Drive [doc](https://flowplayer.org/docs/drive-api.html#uploading)
+ - `videos(authcode)` - List all videos [doc](https://flowplayer.org/docs/drive-api.html#list)
 
 ### Command line tool
 
  - `flowplayer` - prints the usage information
  - `flowplayer login` - prompts for login credentials and caches them for later use
  - `flowplayer upload <file1> [<file2> <file3>]` - Upload one ore more videos to the service
+ - `flowplayer list` - List all videos
