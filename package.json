@@ -8,6 +8,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel src --out-dir lib",
+    "prePublish": "npm run build",
     "dev": "babel src --out-dir lib --watch"
   },
   "repository": {
