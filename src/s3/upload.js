@@ -44,7 +44,7 @@ export default function upload(authcode, filePath) {
     });
     function uploadChunk(uploadId, fd, partId, chunk, chunkQueue, retry = 0) {
       debug('starting upload of part', partId);
-      if (retry > 0) throw new Error('Max retry treshold achieved for partId ' + partId);
+      if (retry > 10) throw new Error('Max retry treshold achieved for partId ' + partId);
       let bf = new Buffer(chunk.end-chunk.start);
       return fs.read(fd, bf, 0, chunk.end-chunk.start, chunk.start).then(() => {
         debug(`uploading part ${partId} of length ${bf.length}`);

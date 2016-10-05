@@ -14,11 +14,10 @@ If you want to use it as a command line tool use the global switch (might need s
 ### Node library
 
 ```js
-var drive = require('flowplayer-drive')
-  , fs = require('fs');
+var drive = require('flowplayer-drive');
 drive.login('john.doe@gmail.com', 's3cr3t').then(function(user) {
   console.log('Logged in as ' + user.email);
-  return drive.uploadVideo(user.authcode, fs.createReadStream('/path/to/file.mp4'), { title: 'My cool video' });
+  return drive.uploadVideo(user.authcode, '/path/to/file.mp4'), { title: 'My cool video' });
 }).catch(function(err) {
   console.error('Something went wrong', err);
 });
