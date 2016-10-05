@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import FormData from 'form-data';
+import upload from './s3/upload';
 
 const API_URL = process.env.DRIVE_API_URL || 'https://drive.api.flowplayer.org';
 
@@ -17,16 +17,16 @@ export function login(username, password) {
 }
 
 export function uploadVideo(authcode, file, params = {}) {
-  let fd = new FormData();
-  Object.keys(params).map(k => fd.append(k, params[k]));
-  fd.append('file', file);
-  return fetch(`${API_URL}/videos`, {
-    method: 'POST',
-    headers: {
-      'flowplayer-authcode': authcode
-    },
-    body: fd
-  }).then(handleResponse).then(json => json.video);
+  return upload(authcode, file).then(data => {
+    return fetch(`${API_URL}/jobs`, {
+      method: 'POST',
+      headers: {
+        'flowplayer-authcode': authcode,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ ...params, s3Key: data })
+    }).then(handleResponse).then(json => json.job);
+  });
 }
 
 export function videos(authcode) {
@@ -35,6 +35,25 @@ export function videos(authcode) {
       'flowplayer-authcode': authcode
     }
   }).then(handleResponse).then(json => json.videos);
+}
+
+export function s3setup(authcode) {
+  return fetch(`${API_URL}/s3`, {
+    headers: {
+      'flowplayer-authcode': authcode
+    }
+  }).then(handleResponse).then(json => json.s3);
+}
+
+export function sign(authcode, data) {
+  return fetch(`${API_URL}/s3/sign`, {
+    headers: {
+      'flowplayer-authcode': authcode,
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    body: JSON.stringify(data)
+  }).then(handleResponse);
 }
 
 function handleResponse(resp) {

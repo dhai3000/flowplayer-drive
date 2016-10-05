@@ -36,7 +36,7 @@ function uploadFlow(files = []) {
     return files.reduce((p, file) => {
       return p.then(() =>{
         console.log(`Uploading ${file}`);
-        return uploadVideo(authcode, fs.createReadStream(file), {
+        return uploadVideo(authcode, file, {
           title: path.basename(file)
         }).then(resp => {
           console.log(`Upload complete, video id ${resp.id}`);
